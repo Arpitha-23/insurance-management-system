@@ -1,0 +1,105 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}My Policies{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>My Policies</h2>
+            <p class="text-muted">
+                View all your insurance policies
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if policies %}
+
+        <div class="row">
+
+            {% for policy in policies %}
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                {{ policy.policy_number }}
+                            </h5>
+
+                            <p>
+                                <strong>Type:</strong>
+                                {{ policy.get_policy_type_display }}
+                            </p>
+
+                            <p>
+                                <strong>Company:</strong>
+                                {{ policy.company.name }}
+                            </p>
+
+                            <p>
+                                <strong>Premium:</strong>
+                                ₹{{ policy.premium_amount }}
+                            </p>
+
+                            <p>
+                                <strong>Sum Insured:</strong>
+                                ₹{{ policy.sum_insured }}
+                            </p>
+
+                            <p>
+                                <strong>Start Date:</strong>
+                                {{ policy.start_date }}
+                            </p>
+
+                            <p>
+                                <strong>End Date:</strong>
+                                {{ policy.end_date }}
+                            </p>
+
+                            <p>
+                                <strong>Next Due Date:</strong>
+                                {{ policy.next_due_date }}
+                            </p>
+
+                            <a
+                                href="{% url 'policy_detail' policy.id %}"
+                                class="btn btn-primary"
+                            >
+                                View Details
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info">
+
+            <h5>No Policies Found</h5>
+
+            <p class="mb-0">
+                You currently don't have any insurance policies.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

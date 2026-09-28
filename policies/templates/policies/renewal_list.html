@@ -1,0 +1,98 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}
+Policy Renewals
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+
+    <h2>Policy Renewals</h2>
+
+    <p class="text-muted">
+        Track upcoming and completed policy renewals.
+    </p>
+
+</div>
+
+
+{% if renewals %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+            <tr>
+                <th>Policy</th>
+                <th>Renewal Date</th>
+                <th>Old Premium</th>
+                <th>New Premium</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for renewal in renewals %}
+
+            <tr>
+
+                <td>
+                    <a href="{% url 'policy_detail' renewal.policy.id %}">
+                        {{ renewal.policy.policy_number }}
+                    </a>
+                </td>
+
+                <td>
+                    {{ renewal.renewal_date }}
+                </td>
+
+                <td>
+                    ₹{{ renewal.old_premium }}
+                </td>
+
+                <td>
+                    ₹{{ renewal.new_premium }}
+                </td>
+
+                <td>
+
+                    {% if renewal.is_renewed %}
+
+                        <span class="badge bg-success">
+                            Renewed
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+    No policy renewals found.
+</div>
+
+{% endif %}
+
+{% endblock %}

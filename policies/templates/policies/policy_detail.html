@@ -1,0 +1,273 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}Policy Details{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <h2>
+            Policy Details
+        </h2>
+
+        <a
+            href="{% url 'policy_list' %}"
+            class="btn btn-secondary"
+        >
+            Back to Policies
+        </a>
+
+    </div>
+
+
+    <!-- POLICY INFORMATION -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                {{ policy.policy_number }}
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Insurance Type:</strong>
+                        {{ policy.get_policy_type_display }}
+                    </p>
+
+                    <p>
+                        <strong>Insurance Company:</strong>
+                        {{ policy.company.name }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ policy.get_status_display }}
+                    </p>
+
+                    <p>
+                        <strong>Payment Frequency:</strong>
+                        {{ policy.payment_frequency }}
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Premium:</strong>
+                        ₹{{ policy.premium_amount }}
+                    </p>
+
+                    <p>
+                        <strong>Sum Insured:</strong>
+                        ₹{{ policy.sum_insured }}
+                    </p>
+
+                    <p>
+                        <strong>Start Date:</strong>
+                        {{ policy.start_date }}
+                    </p>
+
+                    <p>
+                        <strong>End Date:</strong>
+                        {{ policy.end_date }}
+                    </p>
+
+                    <p>
+                        <strong>Next Due Date:</strong>
+                        {{ policy.next_due_date }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CLAIMS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Claims
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if claims %}
+
+                {% for claim in claims %}
+
+                    <div class="border-bottom py-3">
+
+                        <strong>
+                            {{ claim.claim_number }}
+                        </strong>
+
+                        <p class="mb-1">
+                            Amount: ₹{{ claim.claim_amount }}
+                        </p>
+
+                        <p class="mb-0">
+                            Status:
+                            {{ claim.get_status_display }}
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+                    No claims for this policy.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- PREMIUM PAYMENTS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Premium Payments
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if payments %}
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for payment in payments %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ payment.payment_date }}
+                                    </td>
+
+                                    <td>
+                                        ₹{{ payment.amount }}
+                                    </td>
+
+                                    <td>
+                                        {{ payment.payment_method }}
+                                    </td>
+
+                                    <td>
+                                        {{ payment.get_status_display }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+                    No premium payments recorded.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- RENEWALS -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Renewals
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if renewals %}
+
+                {% for renewal in renewals %}
+
+                    <p>
+                        Renewal Date:
+                        {{ renewal.renewal_date }}
+                    </p>
+
+                    <p>
+                        New Premium:
+                        ₹{{ renewal.new_premium }}
+                    </p>
+
+                    <p>
+                        Status:
+                        {% if renewal.is_renewed %}
+                            Renewed
+                        {% else %}
+                            Pending
+                        {% endif %}
+                    </p>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+                    No renewal records.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

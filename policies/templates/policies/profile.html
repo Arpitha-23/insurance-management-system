@@ -1,0 +1,145 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>My Profile</h2>
+
+            <p class="text-muted">
+                Manage your personal information.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if profile %}
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h4 class="mb-4">
+                    {{ profile.first_name }} {{ profile.last_name }}
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Username</strong>
+
+                        <p>
+                            {{ profile.user.username }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Email</strong>
+
+                        <p>
+                            {{ profile.email }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Phone</strong>
+
+                        <p>
+                            {{ profile.phone }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Date of Birth</strong>
+
+                        <p>
+                            {{ profile.date_of_birth }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Gender</strong>
+
+                        <p>
+                            {{ profile.get_gender_display }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Occupation</strong>
+
+                        <p>
+                            {{ profile.occupation|default:"Not provided" }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-12 mb-3">
+
+                        <strong>Address</strong>
+
+                        <p>
+                            {{ profile.address }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <h4>
+                    Profile Not Created
+                </h4>
+
+                <p class="text-muted">
+                    Your customer profile has not been created yet.
+                </p>
+
+                <p>
+                    Please contact the administrator to create your profile.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

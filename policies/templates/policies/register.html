@@ -1,0 +1,53 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}Register - Insurance Management{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-body p-4">
+
+                <h3 class="text-center mb-4">
+                    Create Customer Account
+                </h3>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        Register
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-3">
+
+                    <p>
+                        Already have an account?
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

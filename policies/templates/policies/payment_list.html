@@ -1,0 +1,135 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}
+Premium Payments
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Premium Payments</h2>
+        <p class="text-muted">
+            Track your insurance premium payments.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'policy_list' %}"
+        class="btn btn-primary"
+    >
+        My Policies
+    </a>
+
+</div>
+
+
+{% if payments %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+            <tr>
+                <th>Receipt</th>
+                <th>Policy</th>
+                <th>Payment Date</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Transaction ID</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for payment in payments %}
+
+            <tr>
+
+                <td>
+                    {{ payment.receipt_number|default:"-" }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="{% url 'policy_detail' payment.policy.id %}"
+                    >
+                        {{ payment.policy.policy_number }}
+                    </a>
+
+                </td>
+
+                <td>
+                    {{ payment.payment_date }}
+                </td>
+
+                <td>
+                    ₹{{ payment.amount }}
+                </td>
+
+                <td>
+                    {{ payment.payment_method }}
+                </td>
+
+                <td>
+                    {{ payment.transaction_id|default:"-" }}
+                </td>
+
+                <td>
+
+                    {% if payment.status == 'paid' %}
+
+                        <span class="badge bg-success">
+                            Paid
+                        </span>
+
+                    {% elif payment.status == 'overdue' %}
+
+                        <span class="badge bg-danger">
+                            Overdue
+                        </span>
+
+                    {% elif payment.status == 'pending' %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary">
+                            {{ payment.status|title }}
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+
+    No premium payments found.
+
+</div>
+
+{% endif %}
+
+{% endblock %}

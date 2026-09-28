@@ -1,0 +1,149 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}Dashboard - Insurance Management{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Dashboard</h2>
+
+        <p class="text-muted">
+            Welcome to your Insurance Management System
+        </p>
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- Policies -->
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    My Policies
+                </h6>
+
+                <h2>
+                    {{ policy_count }}
+                </h2>
+
+                <p class="mb-0">
+                    Active insurance policies
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Claims -->
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    My Claims
+                </h6>
+
+                <h2>
+                    {{ claim_count }}
+                </h2>
+
+                <p class="mb-0">
+                    Submitted claims
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Payments -->
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Payments
+                </h6>
+
+                <h2>
+                    {{ payment_count }}
+                </h2>
+
+                <p class="mb-0">
+                    Premium payments
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Renewals -->
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Renewals
+                </h6>
+
+                <h2>
+                    {{ renewal_count }}
+                </h2>
+
+                <p class="mb-0">
+                    Policy renewals
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <h5>
+            Quick Information
+        </h5>
+
+        <p class="text-muted">
+            Use the Insurance Management System to manage
+            policies, claims, premium payments and renewals.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

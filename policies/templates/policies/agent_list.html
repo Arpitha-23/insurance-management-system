@@ -1,0 +1,104 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}
+Agent Management
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Agent Management</h2>
+
+        <p class="text-muted">
+            View active insurance agents.
+        </p>
+    </div>
+
+</div>
+
+
+{% if agents %}
+
+<div class="row">
+
+    {% for agent in agents %}
+
+    <div class="col-md-6 col-lg-4 mb-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    {{ agent.user.username }}
+                </h5>
+
+                <p class="text-muted mb-2">
+                    Agent Code:
+                    <strong>{{ agent.agent_code }}</strong>
+                </p>
+
+                <hr>
+
+                <p>
+                    <strong>Company:</strong>
+                    {{ agent.company.name }}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    {{ agent.phone }}
+                </p>
+
+                <p>
+                    <strong>License:</strong>
+                    {{ agent.license_number }}
+                </p>
+
+                <p>
+                    <strong>License Expiry:</strong>
+                    {{ agent.license_expiry }}
+                </p>
+
+                <p>
+                    <strong>Commission Rate:</strong>
+                    {{ agent.commission_rate }}%
+                </p>
+
+                {% if agent.is_active %}
+
+                    <span class="badge bg-success">
+                        Active
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-secondary">
+                        Inactive
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+
+    No active agents found.
+
+</div>
+
+{% endif %}
+
+{% endblock %}

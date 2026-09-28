@@ -1,0 +1,402 @@
+{% extends 'policies/base.html' %}
+
+{% block title %}
+Reports & Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+
+
+<h2>Reports & Analytics</h2>
+
+<p class="text-muted">
+    Overview of your insurance activity.
+</p>
+
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- DOWNLOAD REPORTS -->
+
+<!-- ===================================================== -->
+
+<div class="mb-4">
+
+
+<a
+    href="{% url 'reports_pdf' %}"
+    class="btn btn-danger me-2"
+>
+    Download PDF
+</a>
+
+<a
+    href="{% url 'reports_excel' %}"
+    class="btn btn-success"
+>
+    Download Excel
+</a>
+
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- SUMMARY CARDS -->
+
+<!-- ===================================================== -->
+
+<div class="row g-4 mb-5">
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Total Policies
+            </h6>
+
+            <h2>
+                {{ total_policies }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Active Policies
+            </h6>
+
+            <h2>
+                {{ active_policies }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Total Claims
+            </h6>
+
+            <h2>
+                {{ total_claims }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Approved Claims
+            </h6>
+
+            <h2>
+                {{ approved_claims }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Paid Claims
+            </h6>
+
+            <h2>
+                {{ paid_claims }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Paid Premium
+            </h6>
+
+            <h2>
+                ₹{{ total_premium }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- CHARTS -->
+
+<!-- ===================================================== -->
+
+<div class="row g-4">
+
+
+<!-- Policy Chart -->
+
+<div class="col-md-6">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <strong>Policy Overview</strong>
+        </div>
+
+        <div class="card-body">
+
+            <canvas id="policyChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Claim Chart -->
+
+<div class="col-md-6">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <strong>Claim Overview</strong>
+        </div>
+
+        <div class="card-body">
+
+            <canvas id="claimChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- FINANCIAL SUMMARY -->
+
+<!-- ===================================================== -->
+
+<div class="row g-4 mt-4">
+
+
+<div class="col-md-6">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5>
+                Total Claim Amount
+            </h5>
+
+            <h3>
+                ₹{{ total_claim_amount }}
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-md-6">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5>
+                Total Approved Amount
+            </h5>
+
+            <h3>
+                ₹{{ total_approved_amount }}
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- CHART.JS -->
+
+<!-- ===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    // -----------------------------------------------------
+    // POLICY CHART
+    // -----------------------------------------------------
+
+    const policyCanvas =
+        document.getElementById('policyChart');
+
+    new Chart(
+        policyCanvas,
+        {
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+                    'Active',
+                    'Other'
+                ],
+
+                datasets: [
+
+                    {
+                        data: [
+                            {{ active_policies }},
+                            {{ total_policies|add:"-"|add:active_policies }}
+                        ]
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        position: 'bottom'
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+    // -----------------------------------------------------
+    // CLAIM CHART
+    // -----------------------------------------------------
+
+    const claimCanvas =
+        document.getElementById('claimChart');
+
+    new Chart(
+        claimCanvas,
+        {
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+                    'Pending',
+                    'Approved',
+                    'Paid'
+                ],
+
+                datasets: [
+
+                    {
+                        data: [
+                            {{ total_claims }},
+                            {{ approved_claims }},
+                            {{ paid_claims }}
+                        ]
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        position: 'bottom'
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+</script>
+
+{% endblock %}
