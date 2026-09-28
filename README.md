@@ -224,4 +224,4 @@ Use environment variables for production credentials.
 
 ## Project Purpose
 
-This project was developed as a Python Full Stack internship project to demonstrate practical implementation of Django, MySQL, frontend development, database management, authentication, reporting, and full-stack application development.
+This project was developed as a Python Full Stack project to demonstrate practical implementation of Django, MySQL, frontend development, database management, authentication, reporting, and full-stack application development.
